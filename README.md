@@ -83,6 +83,37 @@ graph TD
     style Client1 fill:#dfd,stroke:#333
     style Client2 fill:#dfd,stroke:#333
 ```
+```mermaid
+usecaseDiagram
+    actor "Doctor / Researcher" as User
+    actor "Local Hospital Node" as Client
+    actor "Central Aggregator" as Server
+
+    package "Federated Learning Healthcare System" {
+        usecase "Select Medical Dataset" as UC1
+        usecase "Configure Training Rounds" as UC2
+        usecase "Initiate Federated Training" as UC3
+        usecase "Monitor Privacy Logs & Metrics" as UC4
+        usecase "Upload Image for Inference" as UC5
+        usecase "Receive Diagnostic Prediction" as UC6
+        
+        usecase "Train Model Locally" as UC7
+        usecase "Aggregate Model Weights" as UC8
+    }
+
+    User --> UC1
+    User --> UC2
+    User --> UC3
+    User --> UC4
+    User --> UC5
+    User --> UC6
+
+    UC3 ..> UC7 : triggers
+    Client --> UC7
+    
+    UC7 ..> UC8 : sends weights
+    Server --> UC8
+```
 
 **Workflow:**
 1.  **Server Initialization**: The server starts and waits for clients to connect.
