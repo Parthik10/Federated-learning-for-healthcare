@@ -83,24 +83,29 @@ graph TD
     style Client1 fill:#dfd,stroke:#333
     style Client2 fill:#dfd,stroke:#333
 ```
+
 ```mermaid
-usecaseDiagram
-    actor "Doctor / Researcher" as User
-    actor "Local Hospital Node" as Client
-    actor "Central Aggregator" as Server
+flowchart LR
+    %% Actors
+    User([Doctor / Researcher])
+    Client([Local Hospital Node])
+    Server([Central Aggregator])
 
-    package "Federated Learning Healthcare System" {
-        usecase "Select Medical Dataset" as UC1
-        usecase "Configure Training Rounds" as UC2
-        usecase "Initiate Federated Training" as UC3
-        usecase "Monitor Privacy Logs & Metrics" as UC4
-        usecase "Upload Image for Inference" as UC5
-        usecase "Receive Diagnostic Prediction" as UC6
+    %% System Boundary
+    subgraph System [Federated Learning Healthcare System]
+        direction TB
+        UC1(Select Medical Dataset)
+        UC2(Configure Training Rounds)
+        UC3(Initiate Federated Training)
+        UC4(Monitor Privacy Logs & Metrics)
+        UC5(Upload Image for Inference)
+        UC6(Receive Diagnostic Prediction)
         
-        usecase "Train Model Locally" as UC7
-        usecase "Aggregate Model Weights" as UC8
-    }
+        UC7(Train Model Locally)
+        UC8(Aggregate Model Weights)
+    end
 
+    %% Relationships
     User --> UC1
     User --> UC2
     User --> UC3
@@ -108,12 +113,20 @@ usecaseDiagram
     User --> UC5
     User --> UC6
 
-    UC3 ..> UC7 : triggers
+    UC3 -.->|triggers| UC7
     Client --> UC7
     
-    UC7 ..> UC8 : sends weights
+    UC7 -.->|sends weights| UC8
     Server --> UC8
+    
+    %% Styling
+    style User fill:#f9f,stroke:#333,stroke-width:2px
+    style Client fill:#dfd,stroke:#333,stroke-width:2px
+    style Server fill:#f96,stroke:#333,stroke-width:2px
+    style System fill:#f4f4f4,stroke:#333,stroke-width:2px,stroke-dasharray: 5 5
 ```
+
+
 
 **Workflow:**
 1.  **Server Initialization**: The server starts and waits for clients to connect.
